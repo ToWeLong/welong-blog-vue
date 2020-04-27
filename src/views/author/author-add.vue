@@ -56,7 +56,7 @@ export default {
     };
   },
   
-  async updated () {
+  async mounted () {
     let data = await Group.getGroupAll();
     this.groups = data;
   },

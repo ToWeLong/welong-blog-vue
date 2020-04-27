@@ -26,6 +26,13 @@
             </template>
           </el-table-column>
         </el-table>
+         <el-pagination
+          class="page"
+          :hide-on-single-page="true"
+          background
+          layout="prev, pager, next"
+          :total="1000"
+        ></el-pagination>
       </el-card>
     </div>
     <AuthorEdit :isShow="switchEdit" :userList="userList" @editClose="editClose"></AuthorEdit>
@@ -46,7 +53,8 @@ export default {
     return {
       tableData: [],
       switchEdit: true,
-      userList:null
+      userList:null,
+      totlePage:0
     };
   },
   methods: {
@@ -77,7 +85,7 @@ export default {
       return "text-align:center";
     },
     async getUser() {
-      const res = await User.getAll();
+      const res = await User.getAll(0,5);
       this.tableData = res.items;
       res.items.forEach(async (element, index) => {
         let uid = element.id;
@@ -117,5 +125,10 @@ export default {
   width: 90%;
   margin: 20px auto;
   font-size: 30px;
+}
+.page {
+  float: right;
+  height: 40px !important;
+  margin: 10px auto;
 }
 </style>

@@ -47,7 +47,7 @@
           :hide-on-single-page="true"
           background
           layout="prev, pager, next"
-          :total="1"
+          :total="1000"
         ></el-pagination>
       </el-card>
     </div>

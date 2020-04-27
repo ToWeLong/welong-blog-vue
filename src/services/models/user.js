@@ -43,8 +43,8 @@ export default class User {
         saveAccessToken(res.new_access_token)
     }
 
-    static async getAll(){
-        return await get('user/all')
+    static async getAll(start,count){
+        return await get('user/all',{start,count})
     }
 
     static async editUser(id,account,password,group_id,nickname){
