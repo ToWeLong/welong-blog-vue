@@ -67,16 +67,9 @@ _axios.interceptors.request.use(originConfig => {
   }
 
   // step2: auth 处理
-  if (reqConfig.url === 'v1/user/refresh') {
-    const refreshToken = getToken('refresh_token')
-    if (refreshToken) {
-      reqConfig.headers.Authorization = refreshToken
-    }
-  } else {
-    const accessToken = getToken('access_token')
-    if (accessToken) {
+  const accessToken = getToken('access_token')
+  if (accessToken) {
       reqConfig.headers.Authorization = accessToken
-    }
   }
   return reqConfig
 }, error => {
