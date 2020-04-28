@@ -47,7 +47,9 @@
           :hide-on-single-page="true"
           background
           layout="prev, pager, next"
-          :total="1000"
+          @current-change="onPageClick"
+          :total="total"
+          :page-size="count"
         ></el-pagination>
       </el-card>
     </div>
@@ -70,8 +72,7 @@ export default {
     ArticleInfo
   },
   async mounted() {
-    const res = await Article.getAll();
-    this.tableData = res.items;
+   this.getAll()
   },
   data() {
     return {
@@ -79,10 +80,19 @@ export default {
       switchEdit: true,
       articleList: {},
       infoType: "",
-      tag_name: ""
+      tag_name: "",
+      page:1,
+      total:1,
+      count:5
     };
   },
   methods: {
+    async getAll() {
+      const res = await Article.getAll(this.page, 5);
+      this.tableData = res.items;
+      this.total = res.total
+      this.count = res.count
+    },
     dateFormatter(row) {
       let datetime = row;
       if (datetime) {
@@ -93,6 +103,10 @@ export default {
         return y + mon + d;
       }
       return "--";
+    },
+    async onPageClick(val) {
+      this.page = (val-1) * this.count
+      this.getAll()
     },
     dateFormatterCreatedTime(row) {
       return this.dateFormatter(row.create_time);
@@ -111,7 +125,7 @@ export default {
     },
     async editClose() {
       this.switchEdit = true;
-      await Article.getAll();
+      this.getAll()
     },
     async handleEdit(data) {
       this.articleList = data;
@@ -124,8 +138,7 @@ export default {
     async handleDelete(id) {
       try {
         await Article.deleteArticle(id);
-        const res = await Article.getAll();
-        this.tableData = res.items;
+        this.getAll()
         this.$message.success("删除成功！");
       } catch (error) {
         console.log(error);
@@ -138,8 +151,7 @@ export default {
         } else {
           await Article.updateStatus(id, 0);
         }
-        const res = await Article.getAll();
-        this.tableData = res.items;
+        this.getAll()
         console.log(id);
         console.log(status);
         this.$message.success("更改状态成功");

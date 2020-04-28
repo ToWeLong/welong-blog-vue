@@ -6,8 +6,8 @@ import {
 } from '@/services/plugins/axios'
 
 export default class Article {
-    static async getAll() {
-        const res = await get('article/all')
+    static async getAll(start,count) {
+        const res = await get('article/all',{start,count})
         return res
     }
     static async addArticle(title, description, image, content, tag_id) {

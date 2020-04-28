@@ -26,12 +26,14 @@
             </template>
           </el-table-column>
         </el-table>
-         <el-pagination
+        <el-pagination
           class="page"
           :hide-on-single-page="true"
           background
           layout="prev, pager, next"
-          :total="1000"
+          @current-change="onPageClick"
+          :total="total"
+          :page-size="count"
         ></el-pagination>
       </el-card>
     </div>
@@ -47,17 +49,24 @@ export default {
     AuthorEdit
   },
   async mounted() {
-    await this.getUser()
+    await this.getUser();
   },
   data() {
     return {
       tableData: [],
       switchEdit: true,
-      userList:null,
-      totlePage:0
+      userList: null,
+      totlePage: 0,
+      page: 1,
+      total: 1,
+      count: 5
     };
   },
   methods: {
+    async onPageClick(val) {
+      this.page = (val - 1) * this.count;
+      this.getUser();
+    },
     dateFormatter(row) {
       let datetime = row;
       if (datetime) {
@@ -85,8 +94,10 @@ export default {
       return "text-align:center";
     },
     async getUser() {
-      const res = await User.getAll(0,5);
+      const res = await User.getAll(this.page, 5);
       this.tableData = res.items;
+      this.total = res.total;
+      this.count = res.count;
       res.items.forEach(async (element, index) => {
         let uid = element.id;
         let data = await User.getUserInfoByUid(uid);
@@ -101,16 +112,14 @@ export default {
       this.userList = data;
       this.switchEdit = false;
     },
-    async handleDelete(id){
+    async handleDelete(id) {
       try {
-        await User.deleteUser(id)
-        await this.getUser()
+        await User.deleteUser(id);
+        await this.getUser();
         this.$message.success("删除成功！");
       } catch (error) {
         console.log(error);
-        
       }
-      
     }
   }
 };
