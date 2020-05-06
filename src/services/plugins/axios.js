@@ -39,7 +39,7 @@ _axios.interceptors.request.use(originConfig => {
   if (reqConfig.method === 'get') {
     if (!reqConfig.params) {  // 防止字段用错
       reqConfig.params = reqConfig.data || {}
-    } 
+    }
   } else if (reqConfig.method === 'post') {
     if (!reqConfig.data) {
       reqConfig.data = reqConfig.params || {}
@@ -69,7 +69,7 @@ _axios.interceptors.request.use(originConfig => {
   // step2: auth 处理
   const accessToken = getToken('access_token')
   if (accessToken) {
-      reqConfig.headers.Authorization = accessToken
+    reqConfig.headers.Authorization = accessToken
   }
   return reqConfig
 }, error => {
@@ -80,11 +80,11 @@ _axios.interceptors.response.use(async (res) => {
   if (res.status.toString().charAt(0) === '2') {
     return res.data
   }
-  
+
   return new Promise(async (resolve, reject) => {
     // 将本次失败请求保存
-    const { params, url, method ,data } = res.config
-    if(method =="POST" || method =="PUT" || method =="DELETE"){
+    const { params, url, method, data } = res.config
+    if (method == "POST" || method == "PUT" || method == "DELETE") {
       const Json_data = JSON.parse(data)
       store.commit('SET_REFRESH_OPTION', {
         data: Json_data,
@@ -126,14 +126,14 @@ _axios.interceptors.response.use(async (res) => {
       if (cache.url !== url) {
         cache.url = url
         console.log(url);
-        
+
         await author.getRefreshToken()
         const result = await _axios(store.state.refreshOptions)
         resolve(result)
         return
       }
     }
-    
+
     Vue.prototype.$message({
       message: message || '未知的errorCode',
       type: 'error',

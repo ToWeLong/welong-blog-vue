@@ -131,6 +131,8 @@ export default {
       this.articleList = data;
       let res = await Tag.getTagIdByArticleId(this.articleList.id);
       let tag_name = res.tag.tag_name;
+      // console.log(tag_name);
+      
       this.tag_name = tag_name;
       this.switchEdit = false;
       this.infoType = "edit";

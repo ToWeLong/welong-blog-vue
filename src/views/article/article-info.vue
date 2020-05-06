@@ -104,14 +104,12 @@ export default {
     if (this.infoType === "add") {
       this.success = Utils.throttle(this.addArticle, this.wait);
     }
-    if(this.infoType != "add"){
-      this.successEdit = Utils.throttle(this.editArticle,this.wait)
+    if (this.infoType != "add") {
+      this.successEdit = Utils.throttle(this.editArticle, this.wait);
     }
-
     // 取标签列表给编辑的页面
     const resTag = await Tag.getAllFilter();
     this.tags = resTag;
-    this.tag_name = this.tagName;
   },
   data() {
     return {
@@ -128,7 +126,7 @@ export default {
       loading: false,
       wait: 2000,
       success: null,
-      successEdit:null
+      successEdit: null
     };
   },
   methods: {
@@ -155,11 +153,18 @@ export default {
         console.log(e);
       }
     },
-    async editArticle(){
-      const { id,title, description, image, content, tag_id } = this.form;
+    async editArticle() {
+      const { id, title, description, image, content, tag_id } = this.form;
       try {
         this.loading = true;
-        await Article.updateArticle(id,title, description, image, content, tag_id);
+        await Article.updateArticle(
+          id,
+          title,
+          description,
+          image,
+          content,
+          tag_id
+        );
         this.loading = false;
         this.$emit("editClose");
         this.$message.success("编辑成功！");
@@ -169,7 +174,7 @@ export default {
         console.log(e);
       }
     }
-  },
+  }
 };
 </script>
 
