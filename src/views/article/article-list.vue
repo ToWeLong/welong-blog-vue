@@ -54,7 +54,7 @@
       </el-card>
     </div>
     <ArticleInfo
-      :isShow="switchEdit"
+      v-else
       :infoType="infoType"
       :articleList="articleList"
       :tagName="tag_name"

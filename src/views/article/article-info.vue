@@ -1,5 +1,5 @@
 <template>
-  <div v-if="!isShow">
+  <div>
     <div class="view-title">
       <span>{{infoType === 'add' ? '添加文章' : '编辑文章'}}</span>
       <span v-if="infoType === 'edit'" class="back" @click="$emit('editClose', false)">
@@ -49,7 +49,7 @@
             </el-select>
           </el-form-item>
           <el-form-item label="标签:" v-if="infoType != 'add'">
-            <el-select v-model="tagName" placeholder="请选择" @change="editArticleTag">
+            <el-select v-model="tag_name" placeholder="请选择" @change="editArticleTag">
               <el-option
                 v-for="item in tags"
                 :value="item.id"
@@ -81,9 +81,6 @@ export default {
       type: String,
       default: "add"
     },
-    isShow: {
-      type: Boolean
-    },
     articleList: {
       type: Object,
       default: () => {}
@@ -95,19 +92,21 @@ export default {
       type: String
     }
   },
-  async updated() {
+  async created() {
+    console.log(this.infoType);
+    
     if (this.infoType != "add") {
       this.form = this.articleList;
+      console.log(this.tagName);
+      this.tag_name = this.tagName
     }
-  },
-  async created() {
     if (this.infoType === "add") {
       this.success = Utils.throttle(this.addArticle, this.wait);
     }
     if (this.infoType != "add") {
       this.successEdit = Utils.throttle(this.editArticle, this.wait);
     }
-    // 取标签列表给编辑的页面
+    // 取标签列表给编辑或者添加的页面
     const resTag = await Tag.getAllFilter();
     this.tags = resTag;
   },
