@@ -43,12 +43,12 @@ export default class User {
         saveAccessToken(res.new_access_token)
     }
 
-    static async getAll(start,count){
-        return await get('user/all',{start,count})
+    static async getAll(start, count) {
+        return await get('user/all', { start, count })
     }
 
-    static async editUser(id,account,password,group_id,nickname){
-        await put('user/edit',{
+    static async editUser(id, account, password, group_id, nickname) {
+        await put('user/edit', {
             id,
             account,
             password,
@@ -57,16 +57,23 @@ export default class User {
         })
     }
 
-    static async addUser(nickname,account,password,group_id){
-        await post('user/register',{
+    static async addUser(nickname, account, password, group_id) {
+        await post('user/register', {
             nickname,
             account,
             password,
             group_id
         })
     }
-    static async deleteUser(id){
-        await _delete('/user/delete',{id})
+    static async deleteUser(id) {
+        await _delete('/user/delete', { id })
+    }
+
+    static async changePassword(oldPassword, newPassword) {
+        return await put('/user/password', {
+            old_password: oldPassword,
+            password: newPassword
+        })
     }
 
 }

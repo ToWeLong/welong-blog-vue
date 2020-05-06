@@ -349,19 +349,18 @@ export default {
         if (valid) {
           try {
             this.loading = true;
-            const data = {
-              oldPassword: this.form.oldPassword,
-              password: this.form.confirmPassword
-            };
-            const res = await User.changeSelfPassword(data);
-            if (res.errorCode === 0) {
+            const {oldPassword,confirmPassword} = this.form
+            const res = await User.changePassword(oldPassword,confirmPassword);
+            console.log(res);
+            
+            if (res.code === 0) {
               this.loading = false;
-              this.$message.success(`${res.msg}`);
+              this.$message.success(`${res.message}`);
               this.resetForm(formName);
               this.dialogVisible = false;
             } else {
               this.loading = false;
-              this.$message.error(`${res.msg}`);
+              this.$message.error(`${res.message}`);
             }
           } catch (e) {
             this.loading = false;
@@ -423,7 +422,7 @@ export default {
       right: 0;
       bottom: 0;
       left: 0;
-      background: url(../../assets/images/lighthouse.jpeg) center center
+      background: url(../../assets/images/full_res.jpg) center center
         no-repeat;
       background-size: cover;
       filter: brightness(0.7);

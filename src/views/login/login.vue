@@ -3,7 +3,7 @@
     <div class="overlay"></div>
     <el-card class="card" v-loading="loading" element-loading-background="rgba(0, 0, 0, 0)">
       <header class="logo">
-        夏季指南
+        登录页
       </header>
       <form class="form-box" @submit.prevent="throttleLogin">
         <div class="form-item">
@@ -84,7 +84,7 @@ export default {
   align-items: center;
   width: 100%;
   height: 100%;
-  background: url('../../assets/images/lighthouse.jpeg') no-repeat center center;
+  background: url('../../assets/images/full_res.jpg') no-repeat center center;
   background-size: cover;
 
   .overlay {
