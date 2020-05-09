@@ -80,7 +80,6 @@ export default {
       return "text-align:center";
     },
     handleEdit(data) {
-      console.log(data);
       this.groupList = data;
       this.switchEdit = false;
       this.infoType = 'edit'

@@ -78,7 +78,6 @@ export default {
       return "text-align:center";
     },
     handleEdit(data) {
-      console.log(data);
       this.tagList = data;
       this.switchEdit = false;
     },

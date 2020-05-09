@@ -93,11 +93,8 @@ export default {
     }
   },
   async created() {
-    console.log(this.infoType);
-    
     if (this.infoType != "add") {
       this.form = this.articleList;
-      console.log(this.tagName);
       this.tag_name = this.tagName
     }
     if (this.infoType === "add") {
